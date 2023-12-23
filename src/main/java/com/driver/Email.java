@@ -25,29 +25,31 @@ public class Email {
         // 3. It contains at least one lowercase letter
         // 4. It contains at least one digit
         // 5. It contains at least one special character. Any character apart from alphabets and digits is a special character
-        if(!this.password.equals(oldPassword)) return;
-
-        char []ch = newPassword.toCharArray();
-        boolean isEight=false;
-        boolean isOneUpper=false;
-        boolean isOneLower=false;
-        boolean isOneDigit=false;
-        boolean isOneSpecial=false;
-
-        if(newPassword.length()>=8) isEight=true;
-
-        for(char c : ch)
+        if(oldPassword.equals(this.password))
         {
-            if(c>='A' && c<='Z') isOneUpper=true;
-            else
-            if(c>='a' && c<='z') isOneLower=true;
-            else
-            if(c>='0' && c<='9') isOneDigit=true;
-            else
-                isOneSpecial=true;
+            char []ch = newPassword.toCharArray();
+            boolean isEight=false;
+            boolean isOneUpper=false;
+            boolean isOneLower=false;
+            boolean isOneDigit=false;
+            boolean isOneSpecial=false;
+
+            if(newPassword.length()>=8) isEight=true;
+
+            for(char c : ch)
+            {
+                if(c>='A' && c<='Z') isOneUpper=true;
+                else
+                if(c>='a' && c<='z') isOneLower=true;
+                else
+                if(c>='0' && c<='9') isOneDigit=true;
+                else
+                    isOneSpecial=true;
+            }
+
+            if(isEight && isOneDigit && isOneUpper && isOneLower && isOneSpecial)
+                this.password=newPassword;
         }
 
-        if(isEight && isOneDigit && isOneUpper && isOneLower && isOneSpecial)
-            this.password=newPassword;
     }
 }

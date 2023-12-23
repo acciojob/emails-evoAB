@@ -31,9 +31,10 @@ public class Gmail extends Email {
         // It is guaranteed that:
         // 1. Each mail in the inbox is distinct.
         // 2. The mails are received in non-decreasing order. This means that the date of a new mail is greater than equal to the dates of mails received already.
-        if(inbox.size()>=this.inboxCapacity)
+        if(inbox.size()==this.inboxCapacity)
         {
-            Container old = inbox.remove(0);
+            Container old = inbox.get(0);
+            inbox.remove(0);
             trash.add(old);
         }
         Container c = new Container(date, sender, message);
@@ -54,20 +55,24 @@ public class Gmail extends Email {
         }
 
         if(idx!=-1)
-            trash.add(inbox.remove((idx)));
+        {
+            Container c = inbox.get(idx);
+            inbox.remove(idx);
+            trash.add(c);
+        }
     }
 
     public String findLatestMessage(){
         // If the inbox is empty, return null
         // Else, return the message of the latest mail present in the inbox
-        if(inbox.size()==0) return null;
+        if(inbox.isEmpty()) return null;
         return inbox.get(inbox.size()-1).message;
     }
 
     public String findOldestMessage(){
         // If the inbox is empty, return null
         // Else, return the message of the oldest mail present in the inbox
-        if(inbox.size()==0) return null;
+        if(inbox.isEmpty()) return null;
         return inbox.get(0).message;
     }
 
@@ -75,8 +80,8 @@ public class Gmail extends Email {
         //find number of mails in the inbox which are received between given dates
         //It is guaranteed that start date <= end date
         int cnt=0;
-        for (int i=0;i<inbox.size();i++) {
-            if((start.compareTo(inbox.get(i).date))>=0 && end.compareTo(inbox.get(i).date)<=0)
+        for (Container container : inbox) {
+            if ((start.compareTo(container.date)) <= 0 && end.compareTo(container.date) <= 0)
                 cnt++;
         }
         return cnt;
